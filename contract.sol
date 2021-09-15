@@ -17,12 +17,17 @@ contract Hello is Console {
 
     }
 
-    function getUint256( address item) public pure returns(uint256 ){
+    function setAddress( address item) public {
 
-        return  uint256( uint160( item ) );
+        _XueAddress = item;
 
     }
 
+    function getUint256( address item) public pure returns(uint256 ){
+
+        return uint256( uint160( item ) );
+
+    }
 
     function viewXueAddress() public view returns( address ) {
 
@@ -36,25 +41,23 @@ contract Hello is Console {
 
     }
 
+    function viewConontractAddress() public view returns( address ) {
+
+        return address( this );
+
+    }
+
     function calculateDiff() public returns( uint256 ) {
 
-      uint256 valJia = getUint256(  _JiaAddress );
+      uint256 valJia = getUint256( _JiaAddress );
 
       uint256 valXue = getUint256( _XueAddress );
 
       if( valJia > valXue ) {
 
-        diff =  valJia - valXue;
+        diff = valJia - valXue;
 
       }
-
-      log(" ===== valJia ==== ", valJia );
-
-      log(" ===== valXue ==== ", valXue );
-
-      log(" ===== isXueMore ==== ", valJia < valXue );
-
-      log(" ===== diff ==== ", diff );
 
       return diff;
 
