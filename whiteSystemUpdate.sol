@@ -3,9 +3,9 @@ pragma solidity = 0.6.6;
 
 contract WhiteSystem {
 
-  address[] public whiteList;
+  uint160[] public whiteList;
 
-  address[] public validWhitelist;
+  uint160[] public validWhitelist;
 
   uint256 MAX_LIMIT = 100;
 
@@ -37,7 +37,7 @@ contract WhiteSystem {
 
 
   // 获取对应的索引值
-  function checkIndex( address item ) public view returns( uint256 targetIndex ){
+  function checkIndex( uint160 item ) public view returns( uint256 targetIndex ){
 
     targetIndex = 0;
 
@@ -52,7 +52,7 @@ contract WhiteSystem {
   }
 
   // 获取是否存在
-  function checkin( address item ) public view returns( bool inList ){
+  function checkin( uint160 item ) public view returns( bool inList ){
 
     uint length = whiteList.length - 1;
 
@@ -65,7 +65,7 @@ contract WhiteSystem {
   }
 
   // 增加一个
-  function addOne( address item ) public returns( bool result ) {
+  function addOne( uint160 item ) public returns( bool result ) {
 
     bool inList = checkin(item);
     bool uptoLimt = checkLimit();
@@ -80,7 +80,7 @@ contract WhiteSystem {
   }
 
   // 移除一个
-  function removeOne( address item ) public returns( bool result ) {
+  function removeOne( uint160 item ) public returns( bool result ) {
 
 
     bool inList = checkin(item);
