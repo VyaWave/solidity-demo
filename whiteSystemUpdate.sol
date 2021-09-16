@@ -4,46 +4,29 @@ pragma solidity = 0.6.6;
 contract WhiteList {
 
 
-    uint MAX_LIMIT = 100;
-    mapping(address => uint) temporary;
+    uint public MAX_LIMIT = 100;
+    mapping(address => uint) private addressIndexMap;
     address[] private whiteList;
 
     function setMaxLimt(uint _maxlimt) public {
         MAX_LIMIT = _maxlimt;
     }
 
-    function checkInList(address _item) public view returns(bool result) {
-
-        if (temporary[_item] > 0 ) {
-            result = true;
-        } else {
-            result = false;
-        }
+    function checkInList(address _item) public view returns(bool) {
+        return addressIndexMap[_item] > 0;
     }
-
-
-     function checkMaxLimit() private view returns(bool uptoLimt) {
-
-        if (whiteList.length >= MAX_LIMIT) {
-            uptoLimt = true;
-        } else {
-            uptoLimt = false;
-        }
-
-    }
-
 
     function addOne(address _item) public returns(bool result) {
 
-        require(!checkMaxLimit(), " upto limt! ");
+        require(whiteList.length < MAX_LIMIT, " upto limt! ");
 
-        require(!checkInList(_item), " It is allready in list! ");
+        require(addressIndexMap[_item] < 1, " It is allready in list! ");
 
         whiteList.push(_item);
 
         uint length = whiteList.length;
 
-        temporary[ _item ] = length;
+        addressIndexMap[ _item ] = length;
 
         result = true;
 
@@ -51,21 +34,21 @@ contract WhiteList {
 
     function removeOne(address _item) public returns(bool result) {
 
-        require(checkInList(_item), " It is not in list! ");
+        require(addressIndexMap[_item] > 0, " It is not in list! ");
 
-        uint index = temporary[_item] - 1;
+        uint currentIndex = addressIndexMap[_item] - 1;
 
-        uint length = whiteList.length;
+        uint lastInex = whiteList.length - 1;
 
-        address _temp = whiteList[length -1 ];
+        address _temp = whiteList[lastInex];
 
-        whiteList[length - 1 ] = _item;
+        whiteList[lastInex] = _item;
 
-        whiteList[index] = _temp;
+        whiteList[currentIndex] = _temp;
 
-        temporary[_temp] = index + 1;
+        addressIndexMap[_temp] = currentIndex + 1;
 
-        temporary[ _item ] = 0;
+        addressIndexMap[ _item ] = 0;
 
         whiteList.pop();
 
@@ -74,15 +57,11 @@ contract WhiteList {
     }
 
     function viewTotal() public view returns(uint total) {
-
         total = whiteList.length;
-
     }
 
     function viewList() public view returns( address[] memory list ){
-
         list = whiteList;
-
     }
 
 }
