@@ -3,7 +3,6 @@ pragma solidity = 0.6.6;
 
 contract WhiteList {
 
-
     uint public MAX_LIMIT = 100;
     mapping(address => uint) private addressIndexMap;
     address[] private whiteList;
@@ -40,26 +39,21 @@ contract WhiteList {
 
         uint lastInex = whiteList.length - 1;
 
-        address _temp = whiteList[lastInex];
+        address lastItem = whiteList[lastInex];
 
-        whiteList[lastInex] = _item;
-
-        whiteList[currentIndex] = _temp;
-
-        addressIndexMap[_temp] = currentIndex + 1;
-
-        addressIndexMap[ _item ] = 0;
+        whiteList[currentIndex] =  whiteList[lastInex];
 
         whiteList.pop();
 
-        result = true;
+        addressIndexMap[ _item ] = 0;
 
+        addressIndexMap[lastItem] = currentIndex + 1;
+
+        result = true;
     }
 
     function viewTotal() public view returns(uint total) {
-
         total = whiteList.length;
-
     }
 
     function viewList() public view returns( address[] memory list ){
