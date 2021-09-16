@@ -24,9 +24,9 @@ contract WhiteList {
 
         whiteList.push(_item);
 
-        uint length = whiteList.length;
+        uint moreOneIndex = whiteList.length;
 
-        addressIndexMap[ _item ] = length;
+        addressIndexMap[ _item ] = moreOneIndex;
 
         result = true;
 
@@ -57,7 +57,9 @@ contract WhiteList {
     }
 
     function viewTotal() public view returns(uint total) {
+
         total = whiteList.length;
+
     }
 
     function viewList() public view returns( address[] memory list ){
